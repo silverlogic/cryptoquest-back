@@ -29,6 +29,7 @@ def ws_disconnect(message):
 
 
 def ws_message(message):
+    print(message['text'])
     event_info = json.loads(message['text'])
     event_type = event_info['type']
     event_data = event_info['data']
@@ -51,3 +52,19 @@ def ws_message(message):
             user_id=event_data['user_id'],
             location_id=1
         )
+    elif event_type == 'shitcoin':
+        CoinSpawn.objects.filter(faucet__coin__name='Shitcoin').delete()
+        CoinSpawn.objects.create(
+            faucet_id=6,
+            amount=1,
+            type='boss',
+            state='spawned',
+            health=9
+        )
+    elif event_type == 'balance_update':
+        Group('cryptoquest').send({
+            'text': json.dumps({
+                'type': 'balance_updated',
+                'data': {}
+            })
+        })

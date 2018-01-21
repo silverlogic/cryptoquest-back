@@ -18,7 +18,7 @@ from django.contrib import admin
 
 from rest_framework.routers import DefaultRouter
 
-from .views import LocationsViewSet, CoinSpawnsViewSet, ReceiveView
+from .views import LocationsViewSet, CoinSpawnsViewSet, ReceiveView, ShitAttackView
 
 drf_router = DefaultRouter(trailing_slash=False)
 drf_router.register('api/locations', LocationsViewSet)
@@ -27,6 +27,7 @@ drf_router.register('api/coin-spawns', CoinSpawnsViewSet)
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^api/receive', ReceiveView.as_view()),
+    url(r'^api/boss', ReceiveView.as_view()),
 ]
 
 urlpatterns += drf_router.urls

@@ -86,15 +86,23 @@ class CoinSpawn(models.Model):
         super().save(*args, **kwargs)
 
         if is_new:
-            serializer = CoinSpawnSerializer(self)
-            Group('cryptoquest').send({
-                'text': json.dumps({
-                    'type': 'spawn_new',
-                    'data': {
-                        'spawn': serializer.data
-                    }
+            if self.type == 'boss':
+                Group('cryptoquest').send({
+                    'text': json.dumps({
+                        'type': 'shitcoin',
+                        'data': {}
+                    })
                 })
-            })
+            else:
+                serializer = CoinSpawnSerializer(self)
+                Group('cryptoquest').send({
+                    'text': json.dumps({
+                        'type': 'spawn_new',
+                        'data': {
+                            'spawn': serializer.data
+                        }
+                    })
+                })
 
         if is_new_capture:
             wallet, _ = Wallet.objects.get_or_create(
