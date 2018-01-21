@@ -25,7 +25,7 @@ SECRET_KEY = 'cd*fotw^wqqyb0jvfhy2q!#09p#-6!h7whi54e1gkrj8j*p$63'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -37,6 +37,13 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    'channels',
+    'rest_framework',
+
+    'cryptoquest.coins',
+    'cryptoquest.faucets',
+    'cryptoquest.wallets',
 ]
 
 MIDDLEWARE = [
@@ -118,3 +125,13 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 
 STATIC_URL = '/static/'
+
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "asgi_redis.RedisChannelLayer",
+        "CONFIG": {
+            "hosts": [("localhost", 6379)],
+        },
+        "ROUTING": "cryptoquest.routing.channel_routing",
+    },
+}
